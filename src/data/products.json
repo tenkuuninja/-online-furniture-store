@@ -1,0 +1,93 @@
+[
+  {
+    "id": 1,
+    "category": {
+      "id": 1,
+      "name": "Ghế",
+      "description": "Không có mô tả"
+    },
+    "name": "Bàn Copenhague Deux 210",
+    "slug": "",
+    "image": "/images/products/b-1.webp",
+    "price": 4999000,
+    "stock": 100
+  },
+  {
+    "id": 2,
+    "category": {
+      "id": 1,
+      "name": "Ghế",
+      "description": "Không có mô tả"
+    },
+    "name": "Bàn Copenhague Deux 211",
+    "slug": "",
+    "image": "/images/products/b-2.webp",
+    "price": 2999000,
+    "stock": 100
+  },
+  {
+    "id": 3,
+    "category": {
+      "id": 1,
+      "name": "Ghế",
+      "description": "Không có mô tả"
+    },
+    "name": "Bàn Slit Table",
+    "slug": "",
+    "image": "/images/products/b-3.webp",
+    "price": 2499000,
+    "stock": 100
+  },
+  {
+    "id": 4,
+    "category": {
+      "id": 1,
+      "name": "Ghế",
+      "description": "Không có mô tả"
+    },
+    "name": "Ghế phòng khách acrtander",
+    "slug": "",
+    "image": "/images/products/g-1.webp",
+    "price": 3200000,
+    "stock": 100
+  },
+  {
+    "id": 5,
+    "category": {
+      "id": 1,
+      "name": "Ghế",
+      "description": "Không có mô tả"
+    },
+    "name": "Ghế văn phòng chân xoay",
+    "slug": "",
+    "image": "/images/products/g-2.webp",
+    "price": 3200000,
+    "stock": 100
+  },
+  {
+    "id": 6,
+    "category": {
+      "id": 1,
+      "name": "Ghế",
+      "description": "Không có mô tả"
+    },
+    "name": "Ghế Bernard",
+    "slug": "",
+    "image": "/images/products/g-3.jpg",
+    "price": 3890000,
+    "stock": 100
+  },
+  {
+    "id": 7,
+    "category": {
+      "id": 1,
+      "name": "Ghế",
+      "description": "Không có mô tả"
+    },
+    "name": "Ghế sofa giường kéo",
+    "slug": "",
+    "image": "/images/products/s-1.webp",
+    "price": 7200000,
+    "stock": 100
+  }
+]
