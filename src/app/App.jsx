@@ -5,7 +5,6 @@ import { store } from "../redux";
 import materialUiTheme from './customizeMaterialUi';
 import AppRoutes from "./Routes";
 
-import "react-toastify/dist/ReactToastify.css";
 import "styles/tailwind.css";
 import "styles/main.css";
 

@@ -42,7 +42,8 @@ const CheckoutPage = () => {
     if (cart.length === 0) {
       navigate("/gio-hang");
     }
-  }, [cart.length, navigate]);
+    // eslint-disable-next-line
+  }, []);
 
   let content = <></>;
   if (step === 1) {
