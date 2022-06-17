@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
 import { Rating, IconButton, Tooltip } from "@mui/material";
 import { AddShoppingCart } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { addToCart } from "redux/cartSlice";
+import { toVietnamCurentcy } from "utils";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
@@ -17,14 +19,15 @@ const ProductCard = ({ product }) => {
       </div>
       <div className="px-3 py-2">
         <p className="text-sm text-slate-400">{product?.category?.name}</p>
-        <h3 className="text-lg text-slate-800 font-bold h-14">
-          {product.name}
-        </h3>
+        <Link to={`/san-pham/${product.id}-${product.slug}`}>
+          <h3 className="text-lg text-slate-800 font-bold h-14">
+            {product.name}
+          </h3>
+        </Link>
         <Rating size="small" defaultValue={5} readOnly />
         <div className="flex justify-between items-center">
           <p className="font-bold text-rose-600 mt-4 mb-4">
-            {product.price}
-            <span className="text-xs">₫</span>
+            {toVietnamCurentcy(product.price)}
           </p>
           <Tooltip title="Thêm vào giỏ hàng" placement="top-end">
             <IconButton

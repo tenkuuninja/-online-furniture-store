@@ -26,7 +26,7 @@ const AppRoutes = () => {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="san-pham" element={<ProductListPage />}/>
-          <Route path="san-pham/abc" element={<ProductDetailPage />}/>
+          <Route path="san-pham/:url" element={<ProductDetailPage />}/>
           <Route path="gio-hang" element={<CartPage />}/>
           <Route path="thanh-toan" element={<CheckoutPage />}/>
           <Route path="lien-he" element={<ContactPage />}/>
