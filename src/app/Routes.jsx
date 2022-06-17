@@ -6,6 +6,7 @@ import AdminDashboardPage from "pages/Admin/Dashboard";
 import AdminProductPage from "pages/Admin/ProductPage";
 import AdminUserPage from "pages/Admin/UserPage";
 import CartPage from "pages/CartPage";
+import CheckoutPage from "pages/CheckoutPage";
 import HomePage from "pages/HomePage";
 import ProductDetailPage from "pages/ProductDetailPage";
 import ProductListPage from "pages/ProductListPage";
@@ -27,6 +28,7 @@ const AppRoutes = () => {
           <Route path="san-pham" element={<ProductListPage />}/>
           <Route path="san-pham/abc" element={<ProductDetailPage />}/>
           <Route path="gio-hang" element={<CartPage />}/>
+          <Route path="thanh-toan" element={<CheckoutPage />}/>
           <Route path="lien-he" element={<ContactPage />}/>
           <Route path="dang-nhap" element={<LoginPage />}/>
           <Route path="dang-ky" element={<RegisterPage />}/>
