@@ -14,10 +14,19 @@ export const toSlug = (str) => {
 };
 
 export const toVietnamCurentcy = (amount) => {
-  let formatter = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
+  let formatter = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
   });
-  return formatter.format(amount)
+  return formatter.format(amount);
 };
 
+export const compactParagraph = (str, length = 70) => {
+  if (!str) {
+    return "";
+  }
+  if (str.length <= length) {
+    return str;
+  }
+  return str.substring(0, length).trim() + "...";
+};

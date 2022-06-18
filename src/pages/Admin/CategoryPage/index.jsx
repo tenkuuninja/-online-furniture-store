@@ -12,7 +12,7 @@ const AdminCategoryPage = () => {
   const [data, setData] = useState(null);
 
   return (
-    <div className="p-10">
+    <div className="p-4 lg:p-10">
       <div className="flex justify-between items-center mb-10 ">
         <h2 className="text-3xl text-slate-700 font-bold">Danh mục</h2>
         <Button
@@ -26,21 +26,22 @@ const AdminCategoryPage = () => {
           Thêm
         </Button>
       </div>
-      <table className="w-full">
+      <table className="w-full rounded-lg shadow">
         <thead>
-          <tr className="py-4 text-slate-700 font-bold">
-            <td className="py-4">Tên</td>
-            <td className="py-4 px-2">Mô tả</td>
+          <tr className="text-slate-900 font-bold bg-slate-100">
+            <td className="p-4 pr-2">Tên</td>
+            <td className="px-2 py-4">Mô tả</td>
+            <td></td>
           </tr>
         </thead>
         <tbody>
           {categories.map((item, i) => (
             <tr
               key={i}
-              className="border-t border-slate-100 text-slate-600 font-semibold"
+              className="border-t border-slate-100 text-slate-800"
             >
-              <td className="py-4">{item.name}</td>
-              <td className="py-4 px-2">{item.description}</td>
+              <td className="p-4 pr-2">{item.name}</td>
+              <td className="px-2 py-4 line-clamp-3">{item.description}</td>
               <td className="w-1 whitespace-nowrap">
                 <div className="ml-4">
                   <IconButton

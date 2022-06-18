@@ -10,7 +10,6 @@ import CheckoutPage from "pages/CheckoutPage";
 import HomePage from "pages/HomePage";
 import ProductDetailPage from "pages/ProductDetailPage";
 import ProductListPage from "pages/ProductListPage";
-import ContactPage from "pages/ContactPage";
 import LoginPage from "pages/LoginPage";
 import RegisterPage from "pages/RegisterPage";
 import {
@@ -29,7 +28,6 @@ const AppRoutes = () => {
           <Route path="san-pham/:url" element={<ProductDetailPage />}/>
           <Route path="gio-hang" element={<CartPage />}/>
           <Route path="thanh-toan" element={<CheckoutPage />}/>
-          <Route path="lien-he" element={<ContactPage />}/>
           <Route path="dang-nhap" element={<LoginPage />}/>
           <Route path="dang-ky" element={<RegisterPage />}/>
         </Route>

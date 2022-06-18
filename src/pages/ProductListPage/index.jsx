@@ -15,7 +15,7 @@ const ProductListPage = () => {
   }, [search, productStore]);
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="container mx-auto">
       <div className="flex items-center my-4 mx-4 p-3 rounded-lg bg-slate-50 text-slate-500">
         <Search />
         <div className="px-2 grow">
@@ -38,7 +38,7 @@ const ProductListPage = () => {
           </span>
         )}
       </div>
-      <div className="grid grid-cols-5">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {products.map((item, i) => (
           <div key={i} className="p-4">
             <ProductCard product={item} />

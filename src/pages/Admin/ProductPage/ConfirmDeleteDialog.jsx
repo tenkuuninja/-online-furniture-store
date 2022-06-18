@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Dialog, Button } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { deleteProduct } from "redux/productSlice";

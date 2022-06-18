@@ -6,6 +6,7 @@ import { Add, Edit, Delete, Link } from "@mui/icons-material";
 // import { ProductApi } from "apis";
 import EditDialog from "./EditDialog";
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
+import { toVietnamCurentcy, compactParagraph } from "utils";
 
 const AdminCategoryPage = () => {
   const products = useSelector((store) => store.product.data);
@@ -30,36 +31,51 @@ const AdminCategoryPage = () => {
           Thêm
         </Button>
       </div>
-      <table className="w-full">
+      <table className="w-full rounded-lg shadow">
         <thead>
-          <tr className="py-4 text-slate-700 font-bold">
-            <td className="py-4"></td>
-            <td className="py-4 px-2">Tên</td>
-            <td className="py-4 px-2">Giá</td>
-            <td className="py-4 px-2">Tồn kho</td>
-            <td className="py-4 px-2">Mô tả</td>
+          <tr className="text-slate-900 font-bold bg-slate-100">
+            <td className="p-4 pr-2"></td>
+            <td className="px-2 py-4">Tên</td>
+            <td className="hidden xl:table-cell px-2 py-4">Giá</td>
+            <td className="hidden xl:table-cell px-2 py-4">Tồn kho</td>
+            <td className="hidden md:table-cell px-2 py-4">Mô tả</td>
+            <td></td>
           </tr>
         </thead>
         <tbody>
           {products.map((item, i) => (
-            <tr
-              key={i}
-              className="border-t border-slate-100 text-slate-600 font-semibold"
-            >
-              <td className="py-2 w-28">
+            <tr key={i} className="border-t border-slate-100 text-slate-800">
+              <td className="pl-3 py-2 w-28">
                 <img
                   className="w-24 h-24 object-cover"
                   src={item.image}
                   alt=""
                 />
               </td>
-              <td className="py-4 pr-2">{item.name}</td>
-              <td className="py-4 px-2">{item.price}đ</td>
-              <td className="py-4 px-2">{item.stock}</td>
-              <td className="py-4 px-2">{item.description}</td>
+              <td className="py-4 pr-2">
+                <p className="text-lg leading-tight text-slate-800 font-bold">
+                  {item.name}
+                </p>
+                <p className="text-sm text-slate-500">
+                  Danh mục: {item.category.name}
+                </p>
+                <p className="block xl:hidden text-sm text-slate-500">
+                  Trong kho: {item.stock}
+                </p>
+                <p className="block xl:hidden">
+                  {toVietnamCurentcy(item.price)}
+                </p>
+              </td>
+              <td className="hidden xl:table-cell px-2 py-4">
+                {toVietnamCurentcy(item.price)}
+              </td>
+              <td className="hidden xl:table-cell px-2 py-4">{item.stock}</td>
+              <td className="hidden md:table-cell px-2 py-4">
+                {compactParagraph(item.description)}
+              </td>
               <td className="w-1 whitespace-nowrap">
                 <div className="ml-4">
-                  <IconButton onClick={() => navigate("")}>
+                  <IconButton onClick={() => navigate(`/san-pham/${item.id}-${item.slug}`)}>
                     <Link color="secondary" />
                   </IconButton>
                   <IconButton

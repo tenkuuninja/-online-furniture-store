@@ -16,6 +16,7 @@ const ProductDetailPage = () => {
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
   const [isNoContent, setNoContent] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   const { url } = useParams();
 
@@ -29,6 +30,7 @@ const ProductDetailPage = () => {
     const getProduct = () => {
       if (!/^\d+-[a-z0-9-]*$/g.test(url)) {
         setNoContent(true);
+        setLoading(false);
         return;
       }
       let id = +url.replace(/-.*/g, "");
@@ -36,13 +38,19 @@ const ProductDetailPage = () => {
         if (p.id === id) {
           setProduct(p);
           setNoContent(false);
+          setLoading(false);
           return;
         }
       }
+      setLoading(false);
       setNoContent(true);
     };
     getProduct();
   }, [url, productStore]);
+
+  if (isLoading) {
+    return "loading...";
+  }
 
   if (isNoContent) {
     return "No Content";
@@ -50,19 +58,23 @@ const ProductDetailPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-[40%_60%] gap-8">
-        <div className="relative pt-[100%]">
-          <img
-            className="absolute inset-0 w-full h-full object-cover"
-            src={product.image}
-            alt=""
-          />
+      <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-8">
+        <div>
+          <div className="max-w-sm md:max-w-full mx-auto">
+            <div className="relative pt-[100%]">
+              <img
+                className="absolute inset-0 w-full h-full object-cover"
+                src={product.image}
+                alt=""
+              />
+            </div>
+          </div>
         </div>
         <div>
-          <h1 className="text-slate-900 text-4xl font-semibold uppercase">
+          <h1 className="text-slate-900 text-3xl lg:text-4xl font-semibold uppercase">
             {product.name}
           </h1>
-          <p className="text-rose-600 text-6xl font-bold mt-6">
+          <p className="text-rose-600 text-5xl lg:text-6xl font-bold mt-6">
             {toVietnamCurentcy(product.price)}
           </p>
           <p className="text-slate-600 mt-8">
@@ -125,6 +137,22 @@ const ProductDetailPage = () => {
           slidesToShow={5}
           slidesToScroll={5}
           centerPadding="16px"
+          responsive={[
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+              },
+            },
+            {
+              breakpoint: 768,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+              },
+            },
+          ]}
         >
           {productStore
             ?.filter((item) => item?.category?.id === product?.category?.id)

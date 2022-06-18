@@ -65,12 +65,12 @@ const CheckoutPage = () => {
   }
 
   return (
-    <div className="container mx-auto mb-10">
+    <div className="container mx-auto p-4 mb-10">
       <div className="my-8">
         <h2 className="text-4xl text-[#244d4d] font-bold">Thanh toán</h2>
       </div>
       <div className="rounded-lg shadow">
-        <div className="py-8">
+        <div className="hidden sm:block py-8">
           <Stepper activeStep={step} alternativeLabel>
             {steps.map((label) => (
               <Step key={label}>
@@ -78,6 +78,9 @@ const CheckoutPage = () => {
               </Step>
             ))}
           </Stepper>
+        </div>
+        <div className="block sm:hidden text-lg text-[#244d4d] font-bold px-4 py-6">
+          {steps[step]}
         </div>
         {content}
       </div>

@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
       <div className="px-3 py-2">
         <p className="text-sm text-slate-400">{product?.category?.name}</p>
         <Link to={`/san-pham/${product.id}-${product.slug}`}>
-          <h3 className="text-lg text-slate-800 font-bold h-14">
+          <h3 className="text-lg text-slate-800 font-bold h-14 line-clamp-2">
             {product.name}
           </h3>
         </Link>

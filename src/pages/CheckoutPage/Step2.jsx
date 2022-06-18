@@ -21,9 +21,9 @@ const Step2 = ({
     customer?.address?.length > 0;
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       <div className="flex">
-        <div className="inline-block w-[60%]">
+        <div className="inline-block w-full lg:w-[50%] xl:w-[60%]">
           <div className="mt-0">
             <p className="mb-2 text-slate-700 font-semibold">
               Họ và tên <span className="text-red-500">*</span>
@@ -131,7 +131,9 @@ const Step2 = ({
             />
           </div>
         </div>
-        <CartInfo />
+        <div className="hidden lg:block flex-grow pl-8 mt-2">
+          <CartInfo />
+        </div>
       </div>
       <div className="flex justify-between items-center mt-8">
         <div></div>

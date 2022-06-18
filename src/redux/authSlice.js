@@ -10,6 +10,6 @@ const cartSlice = createSlice({
   reducers: {},
 });
 
-export const {} = cartSlice.actions;
+// export const {} = cartSlice.actions;
 
 export default cartSlice.reducer;
