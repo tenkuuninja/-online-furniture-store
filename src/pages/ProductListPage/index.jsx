@@ -38,9 +38,9 @@ const ProductListPage = () => {
           </span>
         )}
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 p-3 md:p-3 xl:p-0">
         {products.map((item, i) => (
-          <div key={i} className="p-4">
+          <div className="p-1 md:p-2 xl:p-4" key={i}>
             <ProductCard product={item} />
           </div>
         ))}

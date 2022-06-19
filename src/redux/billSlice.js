@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import defaultData from "data/categories.json";
+import defaultData from "data/bills.json";
 
 const billSlice = createSlice({
   name: "category",
   initialState: {
-    data: [],
-    nextId: 1,
+    data: defaultData,
+    nextId: defaultData.length + 1,
   },
   reducers: {
     createBill: (state, action) => {

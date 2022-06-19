@@ -1,131 +1,256 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { TextField, InputAdornment, IconButton, Button } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { createUser } from "redux/userSlice";
+import { toast } from "react-toastify";
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+export default function LoginPage() {
+  const users = useSelector((store) => store.user.data);
+  const dispatch = useDispatch();
+  const [data, setData] = useState({});
+  const [errorMessage, setErrorMessage] = useState({});
+  const [isPasswordMasked, setPasswordMasked] = useState(true);
+  const [isConfirmPasswordMasked, setConfirmPasswordMasked] = useState(true);
 
-const theme = createTheme();
+  const navigate = useNavigate();
 
-export default function SignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (!(data.name?.length > 0)) {
+      toast.warn("Tên hiển thị không được bỏ trống");
+      return;
+    }
+    if (!(data.username?.length > 0)) {
+      toast.warn("Tên đăng nhập không được bỏ trống");
+      return;
+    }
+    if (!(data.username?.length >= 8)) {
+      toast.warn("Tên đăng nhập phải có độ dài ít nhất là 8");
+      return;
+    }
+    if (!/^[a-zA-Z0-9_-]{8,}$/g.test(data.username)) {
+      toast.warn(
+        "Tên đăng nhập chỉ cho phép chữ thường, chữ hoa, chữ số và các kí tự _ -"
+      );
+      return;
+    }
+    if (!(data.email?.length > 0)) {
+      toast.warn("Email không được bỏ trống");
+      return;
+    }
+    if (!/^.+@(\w{2,}\.){1,2}\w{2,}$/gi.test(data.email)) {
+      toast.warn("Email không đúng định dạng");
+      return;
+    }
+    if (!(data.password?.length >= 8)) {
+      toast.warn("Mật khẩu phải có độ dài ít nhất là 8");
+      return;
+    }
+    if (
+      !/[a-z]/g.test(data.password) ||
+      !/[A-Z]/g.test(data.password) ||
+      !/[0-9]/g.test(data.password) ||
+      !/[!@#$%^&*()_-]/g.test(data.password)
+    ) {
+      toast.warn(
+        "Mật khẩu phải chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 chữ số và 1 kí tự đăng biệt thuộc !@#$%^&*()_-"
+      );
+      return;
+    }
+    if (data.confirmPassword !== data.password) {
+      toast.warn("Mật khẩu không khớp");
+      return;
+    }
+
+    let newUser = {
+      name: data.name,
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      gender: "M",
+      role: "user",
+    };
+    dispatch(createUser(newUser));
+    toast.success("Đăng kí thành công!");
+    navigate("/dang-nhap");
   };
 
+  const passwordMaskedIcon = (
+    <InputAdornment position="end">
+      <IconButton
+        size="small"
+        onClick={() => setPasswordMasked(!isPasswordMasked)}
+      >
+        {isPasswordMasked ? <Visibility /> : <VisibilityOff />}
+      </IconButton>
+    </InputAdornment>
+  );
+
+  const confirmPasswordMaskedIcon = (
+    <InputAdornment position="end">
+      <IconButton
+        size="small"
+        onClick={() => setConfirmPasswordMasked(!isConfirmPasswordMasked)}
+      >
+        {isConfirmPasswordMasked ? <Visibility /> : <VisibilityOff />}
+      </IconButton>
+    </InputAdornment>
+  );
+
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
+    <div className="max-w-sm mx-auto p-4 mt-4">
+      <div className="font-bold text-center text-primary text-2xl mb-8">
+        Đăng ký
+      </div>
+      <form className="space-y-6 py-6" onSubmit={onSubmit}>
+        <div>
+          <TextField
+            variant="standard"
+            size="small"
+            label="Tên hiển thị"
+            fullWidth
+            value={data.name}
+            onChange={(e) => {
+              let value = e.target.value;
+              let message = "";
+              if (!value) {
+                message = "Tên hiển thị không được trống";
+              }
+              setErrorMessage((prev) => ({ ...prev, name: message }));
+              setData((prev) => ({ ...prev, name: e.target.value }));
+            }}
+            error={!!errorMessage.name}
+            helperText={errorMessage.name}
+          />
+        </div>
+        <div>
+          <TextField
+            variant="standard"
+            size="small"
+            label="Email"
+            fullWidth
+            value={data.email}
+            onChange={(e) => {
+              let value = e.target.value;
+              let message = "";
+              if (value?.length === 0) {
+                message = "Email không được để trống";
+              } else if (!/^.+@(\w{2,}\.){1,2}\w{2,}$/gi.test(value)) {
+                message = "Email không đúng định dạng";
+              }
+              setErrorMessage((prev) => ({ ...prev, email: message }));
+              setData((prev) => ({ ...prev, email: value }));
+            }}
+            error={!!errorMessage.email}
+            helperText={errorMessage.email}
+          />
+        </div>
+        <div>
+          <TextField
+            variant="standard"
+            size="small"
+            label="Tên đăng nhập"
+            fullWidth
+            value={data.username}
+            onChange={(e) => {
+              let value = e.target.value;
+              let message = "";
+              if (!value) {
+                message = "Tên đăng nhập không được trống";
+              } else if (value?.length < 8) {
+                message = "Tên đăng nhập phải dài hơn 8 kí tự";
+              } else if (!/^[a-zA-Z0-9_-]{8,}$/g.test(value)) {
+                message =
+                  "Tên đăng nhập chỉ cho phép chữ thường, chữ hoa, chữ số và các kí tự _ -";
+              }
+              setErrorMessage((prev) => ({ ...prev, username: message }));
+              setData((prev) => ({ ...prev, username: value }));
+            }}
+            error={!!errorMessage.username}
+            helperText={errorMessage.username}
+          />
+        </div>
+        <div>
+          <TextField
+            variant="standard"
+            size="small"
+            type={isPasswordMasked ? "password" : "text"}
+            label="Mật khẩu"
+            fullWidth
+            value={data.password}
+            onChange={(e) => {
+              let value = e.target.value;
+              let message = "";
+              if (value?.length === 0) {
+                message = "Mật khẩu không được để trống";
+              } else if (value?.length < 8) {
+                message = "Độ dài mật khẩu phải lớn hơn 8";
+              } else if (
+                !/[a-z]/g.test(value) ||
+                !/[A-Z]/g.test(value) ||
+                !/[0-9]/g.test(value) ||
+                !/[!@#$%^&*()_-]/g.test(value)
+              ) {
+                message =
+                  "Mật khẩu phải chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 chữ số và 1 kí tự đăng biệt thuộc !@#$%^&*()_-";
+              }
+              let newErrorMessage = { ...errorMessage, password: message };
+              if (value === data.confirmPassword) {
+                newErrorMessage.confirmPassword = "";
+              }
+              setErrorMessage(newErrorMessage);
+              setData((prev) => ({ ...prev, password: value }));
+            }}
+            error={!!errorMessage.password}
+            helperText={errorMessage.password}
+            InputProps={{
+              endAdornment: passwordMaskedIcon,
+            }}
+          />
+        </div>
+        <div>
+          <TextField
+            variant="standard"
+            size="small"
+            type={isConfirmPasswordMasked ? "password" : "text"}
+            label="Nhập lại mật khẩu"
+            fullWidth
+            value={data.confirmPassword}
+            onChange={(e) => {
+              let value = e.target.value;
+              let message = "";
+              if (value !== data.password) {
+                message = "Mật khẩu không khớp";
+              }
+              setErrorMessage((prev) => ({
+                ...prev,
+                confirmPassword: message,
+              }));
+              setData((prev) => ({ ...prev, confirmPassword: value }));
+            }}
+            error={!!errorMessage.confirmPassword}
+            helperText={errorMessage.confirmPassword}
+            InputProps={{
+              endAdornment: confirmPasswordMaskedIcon,
+            }}
+          />
+        </div>
+
+        <Button type="submit" variant="contained" fullWidth>
+          Đăng ký
+        </Button>
+      </form>
+      <div className="text-center mt-8 mb-8">
+        Bạn đã có tài khoản?
+        <Link
+          to="/dang-nhap"
+          className="font-semibold text-primary-500 hover:text-primary transition ml-2"
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+          Đăng nhập ngay
+        </Link>
+      </div>
+    </div>
   );
 }

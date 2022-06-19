@@ -10,21 +10,7 @@ import {
 } from "@mui/material";
 import { Save, Add } from "@mui/icons-material";
 import { createProduct, updateProduct } from "redux/productSlice";
-
-export const changeToSlug = (str) => {
-  str = str.toLowerCase();
-  str = str.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, "a");
-  str = str.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, "e");
-  str = str.replace(/i|í|ì|ỉ|ĩ|ị/gi, "i");
-  str = str.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, "o");
-  str = str.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, "u");
-  str = str.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, "y");
-  str = str.replace(/đ/gi, "d");
-  str = str.replace(/[\W]/gi, " ");
-  str = str.trim();
-  str = str.replace(/\s+/gi, "-");
-  return str;
-};
+import { toSlug } from "utils";
 
 const EditDialog = ({ isOpen, onClose, data }) => {
   const dispatch = useDispatch();
@@ -65,7 +51,7 @@ const EditDialog = ({ isOpen, onClose, data }) => {
     >
       <div className="p-4 md:p-8">
         <div>
-          <h2 className="text-2xl text-slate-700 font-bold">
+          <h2 className="text-2xl text-primary font-bold">
             {isUpdate > 0 ? "Sửa" : "Thêm"} sản phẩm
           </h2>
         </div>
@@ -114,7 +100,7 @@ const EditDialog = ({ isOpen, onClose, data }) => {
               setProduct((prev) => ({
                 ...prev,
                 name: value,
-                slug: changeToSlug(value),
+                slug: toSlug(value),
               }));
             }}
             error={!!errorMessage.name}

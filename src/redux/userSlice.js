@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import defaultData from "data/users.json";
 
 const productSlice = createSlice({
   name: "user",
   initialState: {
-    data: [],
-    nextId: 1,
+    data: defaultData,
+    nextId: defaultData.length + 1,
   },
   reducers: {
     createUser: (state, action) => {
@@ -26,7 +27,6 @@ const productSlice = createSlice({
   },
 });
 
-export const { createUser, updateUser, deleteUser } =
-  productSlice.actions;
+export const { createUser, updateUser, deleteUser } = productSlice.actions;
 
 export default productSlice.reducer;

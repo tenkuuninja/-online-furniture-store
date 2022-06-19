@@ -2,8 +2,9 @@ import { Provider as ReduxProvider } from "react-redux";
 import { ThemeProvider } from "@mui/material/styles";
 import { ToastContainer } from "react-toastify";
 import { store } from "../redux";
-import materialUiTheme from './customizeMaterialUi';
+import materialUiTheme from "./customizeMaterialUi";
 import AppRoutes from "./Routes";
+import StartUp from "./StartUp";
 
 import "styles/tailwind.css";
 import "styles/main.css";
@@ -14,6 +15,7 @@ function App() {
       <ThemeProvider theme={materialUiTheme}>
         <AppRoutes />
         <ToastContainer />
+        <StartUp />
       </ThemeProvider>
     </ReduxProvider>
   );

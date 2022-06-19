@@ -136,7 +136,6 @@ const ProductDetailPage = () => {
           infinite={false}
           slidesToShow={5}
           slidesToScroll={5}
-          centerPadding="16px"
           responsive={[
             {
               breakpoint: 1024,
@@ -157,7 +156,7 @@ const ProductDetailPage = () => {
           {productStore
             ?.filter((item) => item?.category?.id === product?.category?.id)
             ?.map((item, i) => (
-              <div key={i} className="p-4">
+              <div key={i} className="p-1 md:p-2 xl:p-4">
                 <ProductCard product={item} />
               </div>
             ))}

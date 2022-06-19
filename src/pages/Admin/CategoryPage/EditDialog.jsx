@@ -36,7 +36,7 @@ const CategoryModal = ({ isOpen, onClose, data }) => {
     >
       <div className="p-4 md:p-8">
         <div>
-          <h2 className="text-2xl text-slate-700 font-bold">
+          <h2 className="text-2xl text-primary font-bold">
             {isUpdate > 0 ? "Sửa" : "Thêm"} danh mục
           </h2>
         </div>

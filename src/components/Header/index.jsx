@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { Badge, Drawer, Collapse } from "@mui/material";
+import { Badge, Drawer, Collapse, Avatar } from "@mui/material";
 import {
   ShoppingCart,
   Menu,
@@ -9,12 +9,17 @@ import {
   Home,
   Category,
   Chair,
+  Logout,
+  ManageAccounts,
 } from "@mui/icons-material";
 import Dropdown from "components/Dropdown";
+import { logout } from "redux/authSlice";
 
 const Header = () => {
+  const { isLogin, user } = useSelector((store) => store.auth);
   const count = useSelector((store) => store.cart.length);
   const categories = useSelector((store) => store.category.data);
+  const dispatch = useDispatch();
 
   const [isOpenDrawer, setOpenDrawer] = useState(false);
   const [isOpenCollapse, setOpenCollapse] = useState(false);
@@ -38,8 +43,30 @@ const Header = () => {
             <Menu />
             <span className="ml-2">Menu</span>
           </div>
+          {!isLogin && (
+            <div className="flex justify-center gap-2 my-4">
+              <Link
+                className="block"
+                to="/dang-nhap"
+                onClick={() => setOpenDrawer(false)}
+              >
+                <div className="px-4 py-2 text-[#244d4d] border border-[#244d4d] rounded-full mr-2 opacity-90 hover:opacity-100 ease-out duration-200 cursor-pointer">
+                  Đăng Nhập
+                </div>
+              </Link>
+              <Link
+                className="block"
+                to="/dang-ky"
+                onClick={() => setOpenDrawer(false)}
+              >
+                <div className="px-4 py-2 text-white bg-[#244d4d] border border-[#244d4d] rounded-full opacity-90 hover:opacity-100 ease-out duration-200 cursor-pointer">
+                  Đăng ký
+                </div>
+              </Link>
+            </div>
+          )}
           <Link
-            className="block px-4 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200"
+            className="block px-4 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer"
             to="/"
             onClick={() => setOpenDrawer(false)}
           >
@@ -47,7 +74,7 @@ const Header = () => {
             <span className="ml-2">Trang chủ</span>
           </Link>
           <div
-            className="flex items-center px-4 py-2 cursor-pointer hover:bg-slate-50 hover:text-primary ease-in-out duration-200"
+            className="flex items-center px-4 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer"
             onClick={() => setOpenCollapse(!isOpenCollapse)}
           >
             <Category />
@@ -65,7 +92,7 @@ const Header = () => {
               {categories.map((item, i) => (
                 <li key={i} onClick={() => setOpenDrawer(false)}>
                   <Link
-                    className="block pl-8 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200"
+                    className="block pl-8 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer"
                     to="/san-pham"
                   >
                     {item.name}
@@ -75,7 +102,7 @@ const Header = () => {
             </ul>
           </Collapse>
           <Link
-            className="flex items-center px-4 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200"
+            className="flex items-center px-4 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer"
             to="/san-pham"
             onClick={() => setOpenDrawer(false)}
           >
@@ -83,7 +110,7 @@ const Header = () => {
             <span className="ml-2">Sản phẩm</span>
           </Link>
           <Link
-            className="flex items-center px-4 pr-8 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200"
+            className="flex items-center px-4 pr-8 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer"
             to="/gio-hang"
             onClick={() => setOpenDrawer(false)}
           >
@@ -91,6 +118,28 @@ const Header = () => {
             <span className="ml-2 flex-grow">Giỏ hàng</span>
             <Badge badgeContent={count} color="primary" />
           </Link>
+          {isLogin && user.role === "admin" ? (
+            <Link
+              className="flex items-center px-4 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer"
+              to="/admin"
+              onClick={() => setOpenDrawer(false)}
+            >
+              <ManageAccounts />
+              <span className="ml-2">Quản trị</span>
+            </Link>
+          ) : null}
+          {isLogin && (
+            <div
+              className="flex items-center px-4 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer"
+              onClick={() => {
+                setOpenDrawer(false);
+                dispatch(logout());
+              }}
+            >
+              <Logout />
+              <span className="ml-2">Đăng xuất</span>
+            </div>
+          )}
         </div>
       </Drawer>
       <Link className="h-16 py-2 flex items-center" to="/">
@@ -159,16 +208,48 @@ const Header = () => {
             </Badge>
           </div>
         </Link>
-        <Link className="hidden lg:block" to="/dang-nhap">
-          <div className="px-4 py-2 text-[#244d4d] border border-[#244d4d] rounded-full mr-2 opacity-90 hover:opacity-100 ease-out duration-200">
-            Đăng Nhập
-          </div>
-        </Link>
-        <Link className="hidden lg:block" to="/dang-ky">
-          <div className="px-4 py-2 text-white bg-[#244d4d] border border-[#244d4d] rounded-full opacity-90 hover:opacity-100 ease-out duration-200">
-            Đăng ký
-          </div>
-        </Link>
+        {isLogin ? (
+          <Dropdown
+            placement="bottom-right"
+            overlay={
+              <ul className="bg-white shadow py-2 w-56 mt-2">
+                <li className="hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer">
+                  <Link className="flex px-4 py-2" to="/admin">
+                    <ManageAccounts />
+                    <span className="ml-2">Quản trị</span>
+                  </Link>
+                </li>
+                <li
+                  className="flex px-4 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer"
+                  onClick={() => dispatch(logout())}
+                >
+                  <Logout />
+                  <span className="ml-2">Đăng xuất</span>
+                </li>
+              </ul>
+            }
+          >
+            <div className="hidden lg:flex items-center cursor-pointer border rounded-full p-1 bg-slate-50">
+              <span className="text-lg text-slate-800 font-semibold mx-2">
+                {user.name}
+              </span>
+              <Avatar>{user.username.substring(0, 2).toUpperCase()}</Avatar>
+            </div>
+          </Dropdown>
+        ) : (
+          <>
+            <Link className="hidden lg:block" to="/dang-nhap">
+              <div className="px-4 py-2 text-[#244d4d] border border-[#244d4d] rounded-full mr-2 opacity-90 hover:opacity-100 ease-out duration-200">
+                Đăng Nhập
+              </div>
+            </Link>
+            <Link className="hidden lg:block" to="/dang-ky">
+              <div className="px-4 py-2 text-white bg-[#244d4d] border border-[#244d4d] rounded-full opacity-90 hover:opacity-100 ease-out duration-200">
+                Đăng ký
+              </div>
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );

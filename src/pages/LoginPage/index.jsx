@@ -1,126 +1,101 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { TextField, InputAdornment, IconButton, Button } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { toast } from "react-toastify";
+import { login } from "redux/authSlice";
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="/">
-        Nội thất VIETHOANG
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+export default function LoginPage() {
+  const users = useSelector((store) => store.user.data);
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordIsMasked, setPasswordMasked] = useState(true);
 
-const theme = createTheme();
+  const navigate = useNavigate();
 
-export default function SignInSide() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (username.length === 0 || password.length === 0) {
+      toast.warn("Tên đăng nhập và mật khẩu không được để trống");
+      return;
+    }
+
+    let user = users.find(
+      (item) => item.username === username && item.password === password
+    );
+    if (!user) {
+      toast.error("Tên đăng nhập hoặc mật khẩu không chính xác");
+      return;
+    }
+
+    dispatch(login(user));
+    toast.success("Đăng nhập thành công");
+    navigate("/");
   };
 
+  const passwordMaskedIcon = (
+    <InputAdornment position="end">
+      <IconButton
+        size="small"
+        onClick={() => setPasswordMasked(!passwordIsMasked)}
+      >
+        {passwordIsMasked ? <Visibility /> : <VisibilityOff />}
+      </IconButton>
+    </InputAdornment>
+  );
+
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
+    <div className="max-w-sm mx-auto p-4 mt-4">
+      <div className="font-bold text-center text-primary text-2xl mb-8">
+        Đăng nhập
+      </div>
+      <form className="space-y-6 py-6" onSubmit={onSubmit}>
+        <TextField
+          variant="standard"
+          size="small"
+          label="Tên đăng nhập"
+          fullWidth
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+        <div>
+          <TextField
+            variant="standard"
+            size="small"
+            type={passwordIsMasked ? "password" : "text"}
+            label="Mật khẩu"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            InputProps={{
+              endAdornment: passwordMaskedIcon,
             }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Đăng nhập
-            </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Tên đăng nhập hoặc email"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Mật khẩu"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Không có tài khoản? Đăng ký"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
+          />
+          <div className="text-right text-slate-600 text-sm mt-1">
+            <span
+              className="cursor-pointer"
+              onClick={() => toast.info("Liên hệ với Hoàng để được hỗ trợ")}
+            >
+              Quên mật khẩu?
+            </span>
+          </div>
+        </div>
+
+        <Button type="submit" variant="contained" fullWidth>
+          Đăng nhập
+        </Button>
+      </form>
+      <div className="text-center mt-8 mb-8">
+        Bạn chưa có tài khoản?
+        <Link
+          to="/dang-ky"
+          className="font-semibold text-primary-500 hover:text-primary transition ml-2"
+        >
+          Đăng ký ngay
+        </Link>
+      </div>
+    </div>
   );
 }

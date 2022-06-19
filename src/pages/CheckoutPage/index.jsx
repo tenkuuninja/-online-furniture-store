@@ -32,6 +32,7 @@ const CheckoutPage = () => {
       customer: customer,
       total: cart.total,
       products: Object.values(cart.data),
+      status: 0,
       createdAt: new Date().toISOString(),
     };
     dispatch(createBill(newBill));

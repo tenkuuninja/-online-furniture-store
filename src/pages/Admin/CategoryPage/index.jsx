@@ -5,6 +5,8 @@ import { Add, Edit, Delete } from "@mui/icons-material";
 import EditDialog from "./EditDialog";
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 
+const pageSize = 10;
+
 const AdminCategoryPage = () => {
   const categories = useSelector((store) => store.category.data);
   const [page, setPage] = useState(1);
@@ -30,47 +32,48 @@ const AdminCategoryPage = () => {
         <thead>
           <tr className="text-slate-900 font-bold bg-slate-100">
             <td className="p-4 pr-2">Tên</td>
-            <td className="px-2 py-4">Mô tả</td>
+            <td className="hidden sm:table-cell px-2 py-4">Mô tả</td>
             <td></td>
           </tr>
         </thead>
         <tbody>
-          {categories.map((item, i) => (
-            <tr
-              key={i}
-              className="border-t border-slate-100 text-slate-800"
-            >
-              <td className="p-4 pr-2">{item.name}</td>
-              <td className="px-2 py-4 line-clamp-3">{item.description}</td>
-              <td className="w-1 whitespace-nowrap">
-                <div className="ml-4">
-                  <IconButton
-                    onClick={() => {
-                      setData(item);
-                      setDialogStatus("edit");
-                    }}
-                  >
-                    <Edit color="info" />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => {
-                      setData(item);
-                      setDialogStatus("delete");
-                    }}
-                  >
-                    <Delete color="error" />
-                  </IconButton>
-                </div>
-              </td>
-            </tr>
-          ))}
+          {categories
+            ?.slice((page - 1) * pageSize, page * pageSize)
+            ?.map((item, i) => (
+              <tr key={i} className="border-t border-slate-100 text-slate-800">
+                <td className="p-4 pr-2">{item.name}</td>
+                <td className="hidden sm:table-cell px-2 py-4">
+                  <div className="line-clamp-3">{item.description}</div>
+                </td>
+                <td className="w-1 whitespace-nowrap">
+                  <div className="ml-4">
+                    <IconButton
+                      onClick={() => {
+                        setData(item);
+                        setDialogStatus("edit");
+                      }}
+                    >
+                      <Edit color="info" />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => {
+                        setData(item);
+                        setDialogStatus("delete");
+                      }}
+                    >
+                      <Delete color="error" />
+                    </IconButton>
+                  </div>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
       <div className="flex justify-center mt-10 mb-4">
-        {categories.length > 10 && (
+        {categories.length > pageSize && (
           <Pagination
             page={page}
-            count={Math.ceil(categories.length / 10)}
+            count={Math.ceil(categories.length / pageSize)}
             hidePrevButton
             hideNextButton
             showFirstButton

@@ -127,7 +127,6 @@ const HomePage = () => {
           infinite={false}
           slidesToShow={5}
           slidesToScroll={5}
-          centerPadding="16px"
           responsive={[
             {
               breakpoint: 1024,
@@ -146,7 +145,7 @@ const HomePage = () => {
           ]}
         >
           {products.map((item, i) => (
-            <div key={i} className="p-4">
+            <div key={i} className="p-1 md:p-2 xl:p-4">
               <ProductCard product={item} />
             </div>
           ))}

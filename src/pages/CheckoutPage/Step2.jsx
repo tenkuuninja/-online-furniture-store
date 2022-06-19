@@ -5,6 +5,7 @@ import {
   FormControlLabel,
   Radio,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import CartInfo from "./CartInfo";
 
 const Step2 = ({
@@ -135,10 +136,12 @@ const Step2 = ({
           <CartInfo />
         </div>
       </div>
-      <div className="flex justify-between items-center mt-8">
-        <div></div>
+      <div className="flex justify-end items-center gap-4 mt-8">
+        <Link to="/gio-hang">
+          <Button>Về giỏ hàng</Button>
+        </Link>
         <Button disabled={!isValid} variant="contained" onClick={goNextStep}>
-          Tiếp tục
+          Đặt hàng
         </Button>
       </div>
     </div>

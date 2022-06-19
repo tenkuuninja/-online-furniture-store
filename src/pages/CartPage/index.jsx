@@ -14,6 +14,38 @@ const CartPage = () => {
   const cart = useSelector((store) => store.cart);
   const dispatch = useDispatch();
 
+  const changeAmount = (item) => (
+    <div className="inline-flex items-center border">
+      <div
+        className="p-1 cursor-pointer"
+        onClick={() => dispatch(decrementQuantityByProductId(item.product?.id))}
+      >
+        <Remove />
+      </div>
+      <div className="w-12 h-full border-x p-1">
+        <input
+          className="w-full p-[1px] outline-none text-center"
+          type="text"
+          value={item.quantity}
+          onChange={(e) =>
+            dispatch(
+              setQuantityByProductId({
+                productId: item.product?.id,
+                quantity: e.target.value,
+              })
+            )
+          }
+        />
+      </div>
+      <div
+        className="p-1 cursor-pointer"
+        onClick={() => dispatch(incrementQuantityByProductId(item.product?.id))}
+      >
+        <Add />
+      </div>
+    </div>
+  );
+
   return (
     <div className="container mx-auto p-4 mb-10">
       <div className="my-8">
@@ -24,9 +56,9 @@ const CartPage = () => {
           <thead>
             <tr className="font-bold bg-slate-100">
               <th className="text-left p-4 pr-2">Sản phẩm</th>
-              <th className="hidden sm:table-cell px-2 py-4">Đơn giá</th>
-              <th className=" px-2 py-4">Số lượng</th>
-              <th className="hidden md:table-cell px-2 py-4">Thành tiền</th>
+              <th className="hidden md:table-cell px-2 py-4">Đơn giá</th>
+              <th className="hidden sm:table-cell px-2 py-4">Số lượng</th>
+              <th className="hidden lg:table-cell px-2 py-4">Thành tiền</th>
               <th></th>
             </tr>
           </thead>
@@ -46,50 +78,19 @@ const CartPage = () => {
                     <p className="text-sm text-slate-500">
                       Danh mục: {item.product.category.name}
                     </p>
-                    <p className="table-cell sm:hidden">
+                    <p className="block sm:hidden">
                       {toVietnamCurentcy(item.price)}
                     </p>
-                  </div>
-                </td>
-                <td className="hidden sm:table-cell text-center px-2 py-4">
-                  {toVietnamCurentcy(item.price)}
-                </td>
-                <td className="text-center px-2 py-4">
-                  <div className="inline-flex items-center border">
-                    <div
-                      className="p-1 cursor-pointer"
-                      onClick={() =>
-                        dispatch(decrementQuantityByProductId(item.product?.id))
-                      }
-                    >
-                      <Remove />
-                    </div>
-                    <div className="w-12 h-full border-x p-1">
-                      <input
-                        className="w-full p-[1px] outline-none text-center"
-                        type="text"
-                        value={item.quantity}
-                        onChange={(e) =>
-                          dispatch(
-                            setQuantityByProductId({
-                              productId: item.product?.id,
-                              quantity: e.target.value,
-                            })
-                          )
-                        }
-                      />
-                    </div>
-                    <div
-                      className="p-1 cursor-pointer"
-                      onClick={() =>
-                        dispatch(incrementQuantityByProductId(item.product?.id))
-                      }
-                    >
-                      <Add />
-                    </div>
+                    <div className="block sm:hidden">{changeAmount(item)}</div>
                   </div>
                 </td>
                 <td className="hidden md:table-cell text-center px-2 py-4">
+                  {toVietnamCurentcy(item.price)}
+                </td>
+                <td className="hidden sm:table-cell text-center px-2 py-4">
+                  {changeAmount(item)}
+                </td>
+                <td className="hidden lg:table-cell text-center px-2 py-4">
                   {toVietnamCurentcy(item.quantity * item.price)}
                 </td>
                 <td className="text-right p-4 pl-2">

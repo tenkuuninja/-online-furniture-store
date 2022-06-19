@@ -1,18 +1,23 @@
-import { useState, Fragment } from "react";
-import { Outlet, Link, useLocation } from "react-router-dom";
-import { Drawer } from "@mui/material";
+import { useState, Fragment, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { Drawer, Avatar } from "@mui/material";
 import {
   Group,
   Category,
   Chair,
   ShoppingCart,
   Menu,
+  Dashboard,
 } from "@mui/icons-material";
 
-import st from "./admin-layout.module.css";
-
 const menu = [
-  { text: "Khách hàng", icon: <Group fontSize="small" />, url: "/admin/users" },
+  {
+    text: "Bảng điều khiển",
+    icon: <Dashboard fontSize="small" />,
+    url: "/admin",
+  },
+  { text: "Người dùng", icon: <Group fontSize="small" />, url: "/admin/users" },
   {
     text: "Danh mục",
     icon: <Category fontSize="small" />,
@@ -31,30 +36,64 @@ const menu = [
 ];
 
 const AdminLayout = () => {
+  const { isLogin, user } = useSelector((store) => store.auth);
   const [isOpenDrawer, setOpenDrawer] = useState(false);
+  const [isMounted, setMounted] = useState(false);
+
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isMounted && (!isLogin || user.role !== "admin")) {
+      navigate("/");
+    }
+    if (!isMounted) {
+      setMounted(true);
+    }
+  }, [isMounted, isLogin, user.role, navigate]);
+
+  if (!isMounted || !isLogin || user.role !== "admin") {
+    return <></>;
+  }
 
   return (
     <Fragment>
-      <header className="flex justify-between h-16 border-b">
+      <header className="flex justify-between h-16 border-b px-4">
+        <Link className="h-16 py-2 flex items-center" to="/">
+          <img
+            className="h-full"
+            src="/images/logo-vh-black-transparent.png"
+            alt=""
+          />
+          <div className="block">
+            <p className="text-sm italic leading-3">Nội thất</p>
+            <p className="text-2xl font-bold italic leading-none">VIETHOANG</p>
+          </div>
+        </Link>
         <div
           className="block lg:hidden p-4 cursor-pointer"
           onClick={() => setOpenDrawer(true)}
         >
           <Menu />
         </div>
+        <div className="hidden lg:flex items-center cursor-pointer border rounded-full p-1 my-2 bg-slate-50">
+          <span className="text-lg text-slate-800 font-semibold mx-2">
+            {user?.name}
+          </span>
+          <Avatar>{user?.username?.substring(0, 2)?.toUpperCase()}</Avatar>
+        </div>
       </header>
       <div className="flex">
         <aside className="hidden lg:block w-80 pr-6 ">
           <div></div>
-          <ul>
+          <ul className="mt-4 sticky top-0">
             {menu.map((item, i) => (
               <li key={i}>
                 <Link to={item.url}>
                   <div
-                    className={`${st.aside_item} ${
-                      location.pathname === item.url && st.active
-                    } flex justify-start items-center pl-12 py-4 font-semibold text-slate-500`}
+                    className={`admin-aside__item ${
+                      location.pathname === item.url && "active"
+                    } flex justify-start items-center pl-12 py-4 font-semibold text-slate-600`}
                   >
                     <div className="flex mr-4 p-1.5 rounded-[14px]">
                       {item.icon}
@@ -81,8 +120,8 @@ const AdminLayout = () => {
               <li key={i} onClick={() => setOpenDrawer(false)}>
                 <Link to={item.url}>
                   <div
-                    className={`${st.aside_item} ${
-                      location.pathname === item.url && st.active
+                    className={`admin-aside__item ${
+                      location.pathname === item.url && "active"
                     } flex justify-start items-center pl-12 py-4 font-semibold text-slate-500`}
                   >
                     <div className="flex mr-4 p-1.5 rounded-[14px]">

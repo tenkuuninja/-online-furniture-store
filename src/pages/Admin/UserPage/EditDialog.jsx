@@ -19,9 +19,26 @@ const EditDialog = ({ isOpen, onClose, data }) => {
   const [isChangePassword, setChangePassord] = useState(false);
 
   let isUpdate = typeof data?.id === "number";
-  let isValid = user?.name?.length > 0;
+  let isValid =
+    user?.name?.length > 0 &&
+    user?.gender?.length > 0 &&
+    /^[a-zA-Z0-9_-]{8,16}$/g.test(user?.username) &&
+    /^.+@(\w{2,}\.){1,2}\w{2,}$/gi.test(user?.email);
+
+  if ((isUpdate && isChangePassword) || !isUpdate) {
+    isValid =
+      isValid &&
+      user?.password?.length > 0 &&
+      /[a-z]/g.test(user?.password) &&
+      /[A-Z]/g.test(user?.password) &&
+      /[0-9]/g.test(user?.password) &&
+      /[!@#$%^&*()_-]/g.test(user?.password) &&
+      user?.password === user.passwordConfirm;
+  }
 
   const hanldeSubmit = async () => {
+    user.passwordConfirm = undefined;
+    user.role = "user";
     if (isUpdate) {
       dispatch(updateUser(user));
     } else {
@@ -46,7 +63,7 @@ const EditDialog = ({ isOpen, onClose, data }) => {
     >
       <div className="p-4 md:p-8">
         <div>
-          <h2 className="text-2xl text-slate-700 font-bold">
+          <h2 className="text-2xl text-primary font-bold">
             {isUpdate > 0 ? "Sửa" : "Thêm"} người dùng
           </h2>
         </div>
@@ -88,9 +105,9 @@ const EditDialog = ({ isOpen, onClose, data }) => {
                 let message = "";
                 if (!value) {
                   message = "Tên đăng nhập không được trống";
-                } else if (value?.length < 8) {
-                  message = "Tên đăng nhập phải dài hơn 8 kí tự";
-                } else if (!/^[a-zA-Z0-9_-]{8,}$/g.test(value)) {
+                } else if (value?.length < 8 || value?.length > 16) {
+                  message = "Tên đăng nhập phải dài từ 8 - 16 kí tự";
+                } else if (!/^[a-zA-Z0-9_-]{8,16}$/g.test(value)) {
                   message =
                     "Tên đăng nhập chỉ cho phép chữ thường, chữ hoa, chữ số và các kí tự _ -";
                 }
