@@ -10,6 +10,7 @@ import {
 import { Search } from "@mui/icons-material";
 import ProductCard from "components/ProductCard";
 import { Helmet } from "react-helmet";
+import { toSlug } from "utils";
 
 const orderTypes = [
   "Mới nhất",
@@ -33,8 +34,8 @@ const ProductListPage = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    let re = new RegExp(search, "gi");
-    let result = productStore.filter((item) => re.test(item.name));
+    let re = new RegExp(toSlug(search), "gi");
+    let result = productStore.filter((item) => re.test(toSlug(item.name)));
 
     if (category != null) {
       result = result.filter((item) => item?.category?.id === category?.id);
@@ -67,7 +68,6 @@ const ProductListPage = () => {
 
   useEffect(() => {
     let cateId = +searchParams.get("cate");
-    console.log(cateId)
     if (!isNaN(cateId) && cateId > 0) {
       for (let cate of categoryStore) {
         if (cate.id === cateId) {
