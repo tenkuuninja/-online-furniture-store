@@ -13,10 +13,9 @@ const settings = {
 };
 
 const imgs = [
-  { src: "/images/slide-1.jpg" },
-  { src: "/images/slide-2.jpg" },
-  { src: "/images/slide-3.jpg" },
-  { src: "/images/slide-4.jpg" },
+  { src: "/images/slide-1.jpg", text: "Thiết kế tinh tế" },
+  { src: "/images/slide-3.jpg", text: "Nội thất hiện đại"},
+  { src: "/images/slide-4.jpg", text: "Không gian thoải mái" },
 ];
 
 const services = [
@@ -43,18 +42,21 @@ const spaces = [
     no: "01",
     title: "Phòng khách",
     desc: "Sofa, ghế tựa, ghế xoay...",
+    text: "Tiếp đãi khách hoặc sử dụng làm không gian sinh hoạt chung cho các thành viên trong gia đình. ",
   },
   {
     image: "/images/space-2.webp",
     no: "02",
     title: "Nhà bếp",
     desc: "Tủ bếp, kệ đồ dùng nhà bếp...",
+    text: "Một căn phòng hoặc một phần của căn phòng được sử dụng để nấu nướng ",
   },
   {
     image: "/images/space-3.webp",
     no: "03",
     title: "Phòng ngủ",
     desc: "Các loại giường ngủ, tủ áo...",
+    text: "nơi mọi người đi ngủ vào ban đêm hoặc nghỉ ngơi, thư giãn trong ngày",
   },
 ];
 
@@ -65,12 +67,15 @@ const HomePage = () => {
       <div className="mb-8">
         <Slider {...settings}>
           {imgs.map((item, i) => (
-            <div className="relative pt-[56.25%]" key={i}>
+            <div className="relative pt-[45%] overflow-hidden" key={i}>
               <img
                 className="absolute inset-0 object-cover"
                 src={item.src}
                 alt=""
               />
+              <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-40">
+                <p className="slide-text text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white drop-shadow-2xl font-black uppercase transition-all duration-500 delay-500">{item.text}</p>
+              </div>
             </div>
           ))}
         </Slider>
@@ -101,7 +106,12 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 mt-4">
             {spaces.map((item, i) => (
               <div key={i}>
-                <img className="w-full" src={item.image} alt="" />
+                <div className="space-item relative rounded-md overflow-hidden transition-all cursor-pointer hover:shadow-lg hover:-translate-y-1 ">
+                  <img className="w-full" src={item.image} alt="" />
+                  <p className="space-item__text absolute bottom-0 p-4 text-white opacity-0 translate-y-4 transition-all z-10">
+                    {item.text}
+                  </p>
+                </div>
                 <div className="flex mt-4">
                   <div className="text-primary font-light text-6xl md:text-4xl lg:text-6xl underline">
                     {item.no}
@@ -118,7 +128,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto mt-10">
+      <div className="container mx-auto mt-10 mb-10">
         <h3 className="text-3xl text-[#244d4d] font-extrabold uppercase px-4">
           Từ cửa hàng
         </h3>
@@ -150,26 +160,6 @@ const HomePage = () => {
             </div>
           ))}
         </Slider>
-      </div>
-      <div className="bg-slate-50 py-12 mt-10">
-        <div className="container mx-auto">
-          <h3 className="text-3xl text-[#244d4d] font-extrabold uppercase">
-            Khách hàng đánh giá
-          </h3>
-          <Slider
-            dots={false}
-            infinite={false}
-            slidesToShow={5}
-            slidesToScroll={5}
-            centerPadding="16px"
-          >
-            {products.map((item, i) => (
-              <div key={i} className="p-4">
-                <ProductCard product={item} />
-              </div>
-            ))}
-          </Slider>
-        </div>
       </div>
     </Fragment>
   );

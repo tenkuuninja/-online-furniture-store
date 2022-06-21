@@ -26,14 +26,18 @@ export default function LoginPage() {
       toast.warn("Tên đăng nhập không được bỏ trống");
       return;
     }
-    if (!(data.username?.length >= 8)) {
-      toast.warn("Tên đăng nhập phải có độ dài ít nhất là 8");
+    if (!(data.username?.length >= 8) || !(data.username?.length <= 16)) {
+      toast.warn("Tên đăng nhập phải có độ dài từ 8 - 16 ký tự");
       return;
     }
-    if (!/^[a-zA-Z0-9_-]{8,}$/g.test(data.username)) {
+    if (!/^[a-zA-Z0-9_-]{8,16}$/g.test(data.username)) {
       toast.warn(
         "Tên đăng nhập chỉ cho phép chữ thường, chữ hoa, chữ số và các kí tự _ -"
       );
+      return;
+    }
+    if (users.find((item) => item.username === data.username)) {
+      toast.warn("Tên đăng nhập đã tồn tại, vui lòng chọn tên đăng nhập khác");
       return;
     }
     if (!(data.email?.length > 0)) {
@@ -42,6 +46,10 @@ export default function LoginPage() {
     }
     if (!/^.+@(\w{2,}\.){1,2}\w{2,}$/gi.test(data.email)) {
       toast.warn("Email không đúng định dạng");
+      return;
+    }
+    if (users.find((item) => item.email === data.email)) {
+      toast.warn("Email đã tồn tại, vui lòng chọn email khác");
       return;
     }
     if (!(data.password?.length >= 8)) {
@@ -139,6 +147,8 @@ export default function LoginPage() {
                 message = "Email không được để trống";
               } else if (!/^.+@(\w{2,}\.){1,2}\w{2,}$/gi.test(value)) {
                 message = "Email không đúng định dạng";
+              } else if (users.find((item) => item.email === value)) {
+                message = "Email đã tồn tại, vui lòng chọn email khác";
               }
               setErrorMessage((prev) => ({ ...prev, email: message }));
               setData((prev) => ({ ...prev, email: value }));
@@ -159,11 +169,14 @@ export default function LoginPage() {
               let message = "";
               if (!value) {
                 message = "Tên đăng nhập không được trống";
-              } else if (value?.length < 8) {
-                message = "Tên đăng nhập phải dài hơn 8 kí tự";
-              } else if (!/^[a-zA-Z0-9_-]{8,}$/g.test(value)) {
+              } else if (value?.length < 8 || value?.length > 16) {
+                message = "Tên đăng nhập có độ phải dài từ 8 -16 kí tự";
+              } else if (!/^[a-zA-Z0-9_-]{8,16}$/g.test(value)) {
                 message =
                   "Tên đăng nhập chỉ cho phép chữ thường, chữ hoa, chữ số và các kí tự _ -";
+              } else if (users.find((item) => item.username === value)) {
+                message =
+                  "Tên đăng nhập đã tồn tại, vui lòng chọn tên đăng nhập khác";
               }
               setErrorMessage((prev) => ({ ...prev, username: message }));
               setData((prev) => ({ ...prev, username: value }));

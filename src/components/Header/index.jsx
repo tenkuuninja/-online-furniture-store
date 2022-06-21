@@ -93,7 +93,7 @@ const Header = () => {
                 <li key={i} onClick={() => setOpenDrawer(false)}>
                   <Link
                     className="block pl-8 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer"
-                    to="/san-pham"
+                    to={`/san-pham?cate=${item.id}`}
                   >
                     {item.name}
                   </Link>
@@ -167,7 +167,10 @@ const Header = () => {
             <ul className="bg-white shadow py-2 w-56">
               {categories.map((item, i) => (
                 <li key={i}>
-                  <Link className="block px-4 py-2" to="/san-pham">
+                  <Link
+                    className="block px-4 py-2"
+                    to={`/san-pham?cate=${item.id}`}
+                  >
                     {item.name}
                   </Link>
                 </li>
@@ -238,11 +241,13 @@ const Header = () => {
           </Dropdown>
         ) : (
           <>
-            <Link className="hidden lg:block" to="/dang-nhap">
-              <div className="px-4 py-2 text-[#244d4d] border border-[#244d4d] rounded-full mr-2 opacity-90 hover:opacity-100 ease-out duration-200">
-                Đăng Nhập
-              </div>
-            </Link>
+            {user.role === "admin" && (
+              <Link className="hidden lg:block" to="/dang-nhap">
+                <div className="px-4 py-2 text-[#244d4d] border border-[#244d4d] rounded-full mr-2 opacity-90 hover:opacity-100 ease-out duration-200">
+                  Đăng Nhập
+                </div>
+              </Link>
+            )}
             <Link className="hidden lg:block" to="/dang-ky">
               <div className="px-4 py-2 text-white bg-[#244d4d] border border-[#244d4d] rounded-full opacity-90 hover:opacity-100 ease-out duration-200">
                 Đăng ký

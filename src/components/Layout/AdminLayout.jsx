@@ -1,5 +1,5 @@
 import { useState, Fragment, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { Drawer, Avatar } from "@mui/material";
 import {
@@ -9,7 +9,11 @@ import {
   ShoppingCart,
   Menu,
   Dashboard,
+  Web,
+  Logout
 } from "@mui/icons-material";
+import { logout } from "redux/authSlice";
+import Dropdown from "components/Dropdown";
 
 const menu = [
   {
@@ -37,6 +41,7 @@ const menu = [
 
 const AdminLayout = () => {
   const { isLogin, user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
   const [isOpenDrawer, setOpenDrawer] = useState(false);
   const [isMounted, setMounted] = useState(false);
 
@@ -76,12 +81,33 @@ const AdminLayout = () => {
         >
           <Menu />
         </div>
-        <div className="hidden lg:flex items-center cursor-pointer border rounded-full p-1 my-2 bg-slate-50">
-          <span className="text-lg text-slate-800 font-semibold mx-2">
-            {user?.name}
-          </span>
-          <Avatar>{user?.username?.substring(0, 2)?.toUpperCase()}</Avatar>
-        </div>
+        <Dropdown
+          placement="bottom-right"
+          overlay={
+            <ul className="bg-white shadow py-2 w-56 mt-2">
+              <li className="hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer">
+                <Link className="flex px-4 py-2" to="/">
+                  <Web />
+                  <span className="ml-2">Trang khách</span>
+                </Link>
+              </li>
+              <li
+                className="flex px-4 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer"
+                onClick={() => dispatch(logout())}
+              >
+                <Logout />
+                <span className="ml-2">Đăng xuất</span>
+              </li>
+            </ul>
+          }
+        >
+          <div className="hidden lg:flex items-center cursor-pointer border rounded-full p-1 my-2 bg-slate-50">
+            <span className="text-lg text-slate-800 font-semibold mx-2">
+              {user.name}
+            </span>
+            <Avatar>{user.username.substring(0, 2).toUpperCase()}</Avatar>
+          </div>
+        </Dropdown>
       </header>
       <div className="flex">
         <aside className="hidden lg:block w-80 pr-6 ">

@@ -106,6 +106,11 @@ const CartPage = () => {
             ))}
           </tbody>
         </table>
+        {Object.values(cart.data).length === 0 && (
+          <div className="p-4 text-center">
+            Không có sản phẩm nào trong giỏ hàng
+          </div>
+        )}
         <div className="p-4 text-right">
           Tổng cộng:{" "}
           <span className="text-xl text-rose-600 font-bold">

@@ -10,9 +10,10 @@ import {
 } from "@mui/material";
 import { Save, Add } from "@mui/icons-material";
 import { createUser, updateUser } from "redux/userSlice";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const EditDialog = ({ isOpen, onClose, data }) => {
+  const users = useSelector((store) => store.user.data);
   const dispatch = useDispatch();
   const [user, setUser] = useState(data);
   const [errorMessage, setErrorMessage] = useState({});
@@ -23,7 +24,11 @@ const EditDialog = ({ isOpen, onClose, data }) => {
     user?.name?.length > 0 &&
     user?.gender?.length > 0 &&
     /^[a-zA-Z0-9_-]{8,16}$/g.test(user?.username) &&
-    /^.+@(\w{2,}\.){1,2}\w{2,}$/gi.test(user?.email);
+    (!users.find((item) => item.username === user?.username) ||
+      user?.username === data.username) &&
+    /^.+@(\w{2,}\.){1,2}\w{2,}$/gi.test(user?.email) &&
+    (!users.find((item) => item.email === user?.email) ||
+      user?.email === data.email);
 
   if ((isUpdate && isChangePassword) || !isUpdate) {
     isValid =
@@ -110,6 +115,12 @@ const EditDialog = ({ isOpen, onClose, data }) => {
                 } else if (!/^[a-zA-Z0-9_-]{8,16}$/g.test(value)) {
                   message =
                     "Tên đăng nhập chỉ cho phép chữ thường, chữ hoa, chữ số và các kí tự _ -";
+                } else if (
+                  users.find((item) => item.username === value) &&
+                  value !== data.username
+                ) {
+                  message =
+                    "Tên đăng nhập đã tồn tại, vui lòng chọn tên đăng nhập khác";
                 }
                 setErrorMessage((prev) => ({ ...prev, username: message }));
                 setUser((prev) => ({ ...prev, username: value }));
@@ -134,6 +145,11 @@ const EditDialog = ({ isOpen, onClose, data }) => {
                   message = "Email không được để trống";
                 } else if (!/^.+@(\w{2,}\.){1,2}\w{2,}$/gi.test(value)) {
                   message = "Email không đúng định dạng";
+                } else if (
+                  users.find((item) => item.email === value) &&
+                  value !== data.email
+                ) {
+                  message = "Email đã tồn tại, vui lòng chọn email khác";
                 }
                 setErrorMessage((prev) => ({ ...prev, email: message }));
                 setUser((prev) => ({ ...prev, email: value }));

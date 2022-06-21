@@ -42,6 +42,37 @@ body {
   }
 }
 
+.space-item::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent, #244d4d);
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
+}
+.space-item:hover::after {
+  opacity: 1;
+}
+.space-item:hover .space-item__text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-text {
+  text-shadow: 0 0 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.slick-slide.slick-active .slide-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /*=================================================ADMIN LAYOUT===================================================*/
 .admin-aside__item:hover > div {
   background-color: #244d4d;
@@ -63,7 +94,7 @@ body {
   bottom: 0;
   right: 0;
   background-color: #244d4d;
-  opacity: .05;
+  opacity: 0.05;
   border-radius: 0 1rem 1rem 0;
 }
 

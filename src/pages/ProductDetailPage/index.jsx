@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toVietnamCurentcy } from "utils";
 import Slider from "react-slick";
 import ProductCard from "components/ProductCard";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { Remove, Add, AddShoppingCart } from "@mui/icons-material";
 import { addToCart } from "redux/cartSlice";
 
@@ -15,9 +15,9 @@ const ProductDetailPage = () => {
 
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
-  const [isNoContent, setNoContent] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
   const { url } = useParams();
 
   const handleChangeQuantity = (value) => {
@@ -29,7 +29,6 @@ const ProductDetailPage = () => {
   useEffect(() => {
     const getProduct = () => {
       if (!/^\d+-[a-z0-9-]*$/g.test(url)) {
-        setNoContent(true);
         setLoading(false);
         return;
       }
@@ -37,23 +36,21 @@ const ProductDetailPage = () => {
       for (let p of productStore) {
         if (p.id === id) {
           setProduct(p);
-          setNoContent(false);
           setLoading(false);
           return;
         }
       }
-      setLoading(false);
-      setNoContent(true);
+      navigate("/");
     };
     getProduct();
   }, [url, productStore]);
 
   if (isLoading) {
-    return "loading...";
-  }
-
-  if (isNoContent) {
-    return "No Content";
+    return (
+      <div className="flex justify-center items-center h-[60vh]">
+        <CircularProgress />
+      </div>
+    );
   }
 
   return (
