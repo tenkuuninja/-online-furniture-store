@@ -216,12 +216,14 @@ const Header = () => {
             placement="bottom-right"
             overlay={
               <ul className="bg-white shadow py-2 w-56 mt-2">
-                <li className="hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer">
-                  <Link className="flex px-4 py-2" to="/admin">
-                    <ManageAccounts />
-                    <span className="ml-2">Quản trị</span>
-                  </Link>
-                </li>
+                {isLogin && user.role === "admin" ? (
+                  <li className="hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer">
+                    <Link className="flex px-4 py-2" to="/admin">
+                      <ManageAccounts />
+                      <span className="ml-2">Quản trị</span>
+                    </Link>
+                  </li>
+                ) : null}
                 <li
                   className="flex px-4 py-2 hover:bg-slate-50 hover:text-primary ease-in-out duration-200 cursor-pointer"
                   onClick={() => dispatch(logout())}
@@ -241,13 +243,11 @@ const Header = () => {
           </Dropdown>
         ) : (
           <>
-            {user.role === "admin" && (
-              <Link className="hidden lg:block" to="/dang-nhap">
-                <div className="px-4 py-2 text-[#244d4d] border border-[#244d4d] rounded-full mr-2 opacity-90 hover:opacity-100 ease-out duration-200">
-                  Đăng Nhập
-                </div>
-              </Link>
-            )}
+            <Link className="hidden lg:block" to="/dang-nhap">
+              <div className="px-4 py-2 text-[#244d4d] border border-[#244d4d] rounded-full mr-2 opacity-90 hover:opacity-100 ease-out duration-200">
+                Đăng Nhập
+              </div>
+            </Link>
             <Link className="hidden lg:block" to="/dang-ky">
               <div className="px-4 py-2 text-white bg-[#244d4d] border border-[#244d4d] rounded-full opacity-90 hover:opacity-100 ease-out duration-200">
                 Đăng ký
