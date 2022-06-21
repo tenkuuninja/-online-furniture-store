@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "redux/authSlice";
+import { loadCartFromLocalStorage } from "redux/cartSlice";
 
 const StartUp = () => {
   const users = useSelector((store) => store.user.data);
+  const products = useSelector((store) => store.product.data);
   const dispatch = useDispatch();
 
   const shouldLogin = () => {
@@ -16,6 +18,7 @@ const StartUp = () => {
 
   useEffect(() => {
     shouldLogin();
+    dispatch(loadCartFromLocalStorage(products));
     // eslint-disable-next-line
   }, []);
 

@@ -4,14 +4,14 @@ import defaultData from "data/categories.json";
 const categorySlice = createSlice({
   name: "category",
   initialState: {
-    data: defaultData,
+    data: defaultData.reverse(),
     nextId: defaultData.length + 1,
   },
   reducers: {
     createCategory: (state, action) => {
       let newCategory = action.payload;
       newCategory.id = state.nextId++;
-      state.data.push(newCategory);
+      state.data.unshift(newCategory);
     },
     updateCategory: (state, action) => {
       state.data = state.data.map((item) => {

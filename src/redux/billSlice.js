@@ -4,14 +4,14 @@ import defaultData from "data/bills.json";
 const billSlice = createSlice({
   name: "category",
   initialState: {
-    data: defaultData,
+    data: defaultData.reverse(),
     nextId: defaultData.length + 1,
   },
   reducers: {
     createBill: (state, action) => {
       let newBill = action.payload;
       newBill.id = state.nextId++;
-      state.data.push(newBill);
+      state.data.unshift(newBill);
     },
     updateBill: (state, action) => {
       state.data = state.data.map((item) => {

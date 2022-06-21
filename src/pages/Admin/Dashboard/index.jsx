@@ -42,7 +42,7 @@ const AdminDashboardPage = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
         {data.map((item, i) => (
-          <Link to={item.url}>
+          <Link to={item.url} key={i}>
             <div
               className="flex justify-center items-center flex-col m-4 py-10 rounded-md shadow hover:shadow-lg transition-shadow"
               key={i}

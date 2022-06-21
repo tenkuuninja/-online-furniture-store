@@ -19,7 +19,7 @@ const orderTypes = [
   "Giá giảm dần",
 ];
 
-const pageSize = 15;
+const pageSize = 10;
 
 const ProductListPage = () => {
   const productStore = useSelector((store) => store.product.data);
@@ -74,7 +74,7 @@ const ProductListPage = () => {
         }
       }
     }
-  }, [searchParams.get("cate")]);
+  }, [searchParams, categoryStore]);
 
   return (
     <div className="container mx-auto">
@@ -151,11 +151,13 @@ const ProductListPage = () => {
         )}
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 p-3 md:p-3 xl:p-0">
-        {products.map((item, i) => (
-          <div className="p-1 md:p-2 xl:p-4" key={i}>
-            <ProductCard product={item} />
-          </div>
-        ))}
+        {products
+          ?.slice((page - 1) * pageSize, page * pageSize)
+          ?.map((item, i) => (
+            <div className="p-1 md:p-2 xl:p-4" key={i}>
+              <ProductCard product={item} />
+            </div>
+          ))}
       </div>
       {products.length === 0 && (
         <div className="flex justify-center items-center w-full h-96 text-2xl font-bold uppercase text-primary">

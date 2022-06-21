@@ -4,14 +4,14 @@ import defaultData from "data/users.json";
 const productSlice = createSlice({
   name: "user",
   initialState: {
-    data: defaultData,
+    data: defaultData.reverse(),
     nextId: defaultData.length + 1,
   },
   reducers: {
     createUser: (state, action) => {
       let newUser = action.payload;
       newUser.id = state.nextId++;
-      state.data.push(newUser);
+      state.data.unshift(newUser);
     },
     updateUser: (state, action) => {
       state.data = state.data.map((item) => {
