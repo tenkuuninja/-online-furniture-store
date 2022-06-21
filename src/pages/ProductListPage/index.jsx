@@ -67,13 +67,16 @@ const ProductListPage = () => {
 
   useEffect(() => {
     let cateId = +searchParams.get("cate");
-    if (!isNaN(cateId)) {
+    console.log(cateId)
+    if (!isNaN(cateId) && cateId > 0) {
       for (let cate of categoryStore) {
         if (cate.id === cateId) {
           setCategory(cate);
           break;
         }
       }
+    } else {
+      setCategory(null);
     }
   }, [searchParams, categoryStore]);
 

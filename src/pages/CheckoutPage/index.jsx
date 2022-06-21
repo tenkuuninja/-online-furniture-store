@@ -30,7 +30,13 @@ const CheckoutPage = () => {
 
   const handleCheckout = () => {
     let newBill = {
-      customer: customer,
+      customer: {
+        name: customer.name,
+        gender: customer.gender,
+        phone: customer.phone,
+        address: `${customer.address}, ${customer.addressLv3?.name}, ${customer.addressLv2?.name}, ${customer.addressLv1?.name}`,
+        note: customer.note,
+      },
       total: cart.total,
       products: Object.values(cart.data),
       status: 0,
