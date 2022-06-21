@@ -5,6 +5,7 @@ import { TextField, InputAdornment, IconButton, Button } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { createUser } from "redux/userSlice";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet";
 
 export default function LoginPage() {
   const users = useSelector((store) => store.user.data);
@@ -109,6 +110,9 @@ export default function LoginPage() {
 
   return (
     <div className="max-w-sm mx-auto p-4 mt-4">
+      <Helmet>
+        <title>Đăng ký | Nội thất Việt Hoàng</title>
+      </Helmet>
       <div className="font-bold text-center text-primary text-2xl mb-8">
         Đăng ký
       </div>

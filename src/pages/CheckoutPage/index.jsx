@@ -8,6 +8,7 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import { createBill } from "redux/billSlice";
 import { clearCart } from "redux/cartSlice";
+import { Helmet } from "react-helmet";
 
 const steps = [
   "Chọn sản phẩm",
@@ -67,6 +68,9 @@ const CheckoutPage = () => {
 
   return (
     <div className="container mx-auto p-4 mb-10">
+      <Helmet>
+        <title>Thanh toán | Nội thất Việt Hoàng</title>
+      </Helmet>
       <div className="my-8">
         <h2 className="text-4xl text-[#244d4d] font-bold">Thanh toán</h2>
       </div>

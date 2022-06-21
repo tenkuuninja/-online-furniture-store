@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Group, Category, Chair, ShoppingCart } from "@mui/icons-material";
+import { Helmet } from "react-helmet";
 
 const AdminDashboardPage = () => {
   const userCount = useSelector((store) => store.user.data).length;
@@ -37,6 +38,9 @@ const AdminDashboardPage = () => {
 
   return (
     <div className="p-4 lg:p-10">
+      <Helmet>
+        <title>Dashboard | Admin</title>
+      </Helmet>
       <div className="flex justify-between items-center mb-10 ">
         <h2 className="text-3xl text-slate-700 font-bold">Bảng điều khiển</h2>
       </div>

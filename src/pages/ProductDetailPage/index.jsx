@@ -8,6 +8,7 @@ import ProductCard from "components/ProductCard";
 import { Button, CircularProgress } from "@mui/material";
 import { Remove, Add, AddShoppingCart } from "@mui/icons-material";
 import { addToCart } from "redux/cartSlice";
+import { Helmet } from "react-helmet";
 
 const ProductDetailPage = () => {
   const productStore = useSelector((store) => store.product.data);
@@ -43,7 +44,7 @@ const ProductDetailPage = () => {
       navigate("/");
     };
     getProduct();
-  }, [url, productStore]);
+  }, [url, productStore, navigate]);
 
   if (isLoading) {
     return (
@@ -55,6 +56,9 @@ const ProductDetailPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Helmet>
+        <title>{product?.name} | Nội thất Việt Hoàng</title>
+      </Helmet>
       <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-8">
         <div>
           <div className="max-w-sm md:max-w-full mx-auto">

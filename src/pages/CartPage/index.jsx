@@ -9,6 +9,7 @@ import {
   removeFromCartByProductId,
 } from "redux/cartSlice";
 import { toVietnamCurentcy } from "utils";
+import { Helmet } from "react-helmet";
 
 const CartPage = () => {
   const cart = useSelector((store) => store.cart);
@@ -48,6 +49,9 @@ const CartPage = () => {
 
   return (
     <div className="container mx-auto p-4 mb-10">
+      <Helmet>
+        <title>Giỏ hàng | Nội thất Việt Hoàng</title>
+      </Helmet>
       <div className="my-8">
         <h2 className="text-4xl text-[#244d4d] font-bold">Giỏ hàng</h2>
       </div>

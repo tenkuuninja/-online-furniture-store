@@ -4,6 +4,7 @@ import { Pagination, Button, IconButton, Chip } from "@mui/material";
 import { Add, Edit, Delete } from "@mui/icons-material";
 import EditDialog from "./EditDialog";
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
+import { Helmet } from "react-helmet";
 
 const pageSize = 10;
 
@@ -15,6 +16,9 @@ const AdminUserPage = () => {
 
   return (
     <div className="p-4 lg:p-10">
+      <Helmet>
+        <title>Tài khoản | Admin</title>
+      </Helmet>
       <div className="flex justify-between items-center mb-10 ">
         <h2 className="text-3xl text-slate-700 font-bold">Người dùng</h2>
         <Button

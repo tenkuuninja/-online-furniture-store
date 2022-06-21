@@ -4,6 +4,7 @@ import { Pagination, IconButton, Chip } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
 import ViewDialog from "./ViewDialog";
 import { toVietnamCurentcy, compactParagraph } from "utils";
+import { Helmet } from "react-helmet";
 
 const pageSize = 10;
 
@@ -23,6 +24,9 @@ const AdminBillPage = () => {
 
   return (
     <div className="p-4 lg:p-10">
+      <Helmet>
+        <title>Hóa đơn | Admin</title>
+      </Helmet>
       <div className="flex justify-between items-center mb-10 ">
         <h2 className="text-3xl text-slate-700 font-bold">Hóa đơn</h2>
       </div>

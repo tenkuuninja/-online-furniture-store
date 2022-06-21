@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Slider from "react-slick";
 import { Send, Lock, Undo } from "@mui/icons-material";
 import ProductCard from "components/ProductCard";
+import { Helmet } from "react-helmet";
 
 const settings = {
   dots: false,
@@ -14,7 +15,7 @@ const settings = {
 
 const imgs = [
   { src: "/images/slide-1.jpg", text: "Thiết kế tinh tế" },
-  { src: "/images/slide-3.jpg", text: "Nội thất hiện đại"},
+  { src: "/images/slide-3.jpg", text: "Nội thất hiện đại" },
   { src: "/images/slide-4.jpg", text: "Không gian thoải mái" },
 ];
 
@@ -64,6 +65,9 @@ const HomePage = () => {
   const products = useSelector((store) => store.product.data);
   return (
     <Fragment>
+      <Helmet>
+        <title>Trang chủ | Nội thất Việt Hoàng</title>
+      </Helmet>
       <div className="mb-8">
         <Slider {...settings}>
           {imgs.map((item, i) => (
@@ -74,7 +78,9 @@ const HomePage = () => {
                 alt=""
               />
               <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-40">
-                <p className="slide-text text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white drop-shadow-2xl font-black uppercase transition-all duration-500 delay-500">{item.text}</p>
+                <p className="slide-text text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white drop-shadow-2xl font-black uppercase transition-all duration-500 delay-500">
+                  {item.text}
+                </p>
               </div>
             </div>
           ))}

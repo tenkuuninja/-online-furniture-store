@@ -7,6 +7,7 @@ import { Add, Edit, Delete, Link } from "@mui/icons-material";
 import EditDialog from "./EditDialog";
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 import { toVietnamCurentcy, compactParagraph } from "utils";
+import { Helmet } from "react-helmet";
 
 const pageSize = 10;
 
@@ -20,6 +21,9 @@ const AdminProductPage = () => {
 
   return (
     <div className="p-4 lg:p-10">
+      <Helmet>
+        <title>Sản phẩm | Admin</title>
+      </Helmet>
       <div className="flex justify-between items-center mb-10 ">
         <h2 className="text-3xl text-slate-700 font-bold">Sản phẩm</h2>
         <Button

@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import ProductCard from "components/ProductCard";
+import { Helmet } from "react-helmet";
 
 const orderTypes = [
   "Mới nhất",
@@ -78,6 +79,9 @@ const ProductListPage = () => {
 
   return (
     <div className="container mx-auto">
+      <Helmet>
+        <title>Sản phẩm | Nội thất Việt Hoàng</title>
+      </Helmet>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-y-4 p-4 my-4">
         <div className="order-2 md:order-1">
           <Autocomplete
