@@ -16,7 +16,6 @@ const status = [
 ];
 
 const AdminBillPage = () => {
-  const products = useSelector((store) => store.product.data);
   const bills = useSelector((store) => store.bill.data);
   const [page, setPage] = useState(1);
   const [dialogStatus, setDialogStatus] = useState("close");
@@ -111,10 +110,10 @@ const AdminBillPage = () => {
         </tbody>
       </table>
       <div className="flex justify-center mt-10 mb-4">
-        {products?.length > pageSize && (
+        {bills?.length > pageSize && (
           <Pagination
             page={page}
-            count={Math.ceil(products?.length / pageSize)}
+            count={Math.ceil(bills?.length / pageSize)}
             hidePrevButton
             hideNextButton
             showFirstButton
