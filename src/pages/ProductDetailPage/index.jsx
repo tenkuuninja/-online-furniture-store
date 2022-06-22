@@ -79,20 +79,7 @@ const ProductDetailPage = () => {
             {toVietnamCurentcy(product.price)}
           </p>
           <p className="text-slate-600 mt-8">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-            placerat non odio nec ultricies. Ut vitae libero est. In
-            pellentesque, mauris vel hendrerit vestibulum, enim diam facilisis
-            mauris, id sodales urna sapien quis diam. Pellentesque ante leo,
-            mollis eget dui in, consequat suscipit erat. Aenean rutrum id ante
-            ac lacinia. Donec consequat malesuada elit, vitae rutrum lectus
-            rhoncus sed. Fusce nunc arcu, blandit id ultrices rhoncus, posuere
-            non eros. Vivamus non viverra lorem. Pellentesque blandit lorem ut
-            porttitor semper. Donec sit amet turpis sapien. Quisque in dolor
-            iaculis, eleifend lorem blandit, pretium nulla. Mauris posuere mi id
-            tortor convallis, ut tincidunt enim tempus. Class aptent taciti
-            sociosqu ad litora torquent per conubia nostra, per inceptos
-            himenaeos. Cras aliquet eu nisl quis consequat. Ut mauris sem,
-            rhoncus in faucibus et, aliquam sit amet augue.{" "}
+            {product.desc}
           </p>
           <div className="inline-flex items-center border mt-6">
             <div
