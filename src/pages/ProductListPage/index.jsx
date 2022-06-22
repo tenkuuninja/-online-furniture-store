@@ -161,7 +161,12 @@ const ProductListPage = () => {
         {products
           ?.slice((page - 1) * pageSize, page * pageSize)
           ?.map((item, i) => (
-            <div className="p-1 md:p-2 xl:p-4" key={i}>
+            <div
+              data-aos="fade-up"
+              data-aos-delay={i * 150}
+              className="p-1 md:p-2 xl:p-4"
+              key={i}
+            >
               <ProductCard product={item} />
             </div>
           ))}

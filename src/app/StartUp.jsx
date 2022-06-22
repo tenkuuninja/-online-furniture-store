@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "redux/authSlice";
 import { loadCartFromLocalStorage } from "redux/cartSlice";
+import AOS from "aos";
 
 const StartUp = () => {
   const users = useSelector((store) => store.user.data);
@@ -19,6 +20,9 @@ const StartUp = () => {
   useEffect(() => {
     shouldLogin();
     dispatch(loadCartFromLocalStorage(products));
+
+    AOS.init({ once: true });
+    AOS.refresh();
     // eslint-disable-next-line
   }, []);
 

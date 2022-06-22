@@ -68,7 +68,7 @@ const CartPage = () => {
           </thead>
           <tbody>
             {Object.values(cart.data).map((item, i) => (
-              <tr key={i}>
+              <tr data-aos="fade-up" data-aos-delay={i * 150} key={i}>
                 <td className="flex items-start p-4 pr-2">
                   <img
                     className="w-20 h-20 object-cover"

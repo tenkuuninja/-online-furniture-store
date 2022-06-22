@@ -7,6 +7,7 @@ import AppRoutes from "./Routes";
 import StartUp from "./StartUp";
 
 import "styles/tailwind.css";
+import "aos/dist/aos.css";
 import "styles/main.css";
 
 function App() {

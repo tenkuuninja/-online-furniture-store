@@ -89,6 +89,8 @@ const HomePage = () => {
       <div className="container mx-auto mt-10 px-4 space-y-6 md:space-y-0">
         {services.map((item, i) => (
           <div
+            data-aos="fade-up"
+            data-aos-delay={i * 150}
             className="inline-flex flex-col lg:flex-row items-center lg:items-start w-full md:w-1/3 lg:px-4"
             key={i}
           >
@@ -104,14 +106,14 @@ const HomePage = () => {
           </div>
         ))}
       </div>
-      <div className="bg-slate-50 py-12 mt-10">
+      <div className="bg-slate-50 py-12 mt-10" data-aos="fade-up">
         <div className="container mx-auto px-4">
           <h3 className="text-3xl text-[#244d4d] font-extrabold uppercase">
             Không gian nội thất
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6 mt-4">
             {spaces.map((item, i) => (
-              <div key={i}>
+              <div data-aos="fade-up" data-aos-delay={i * 150} key={i}>
                 <div className="space-item relative rounded-md overflow-hidden transition-all cursor-pointer hover:shadow-lg hover:-translate-y-1 ">
                   <img className="w-full" src={item.image} alt="" />
                   <p className="space-item__text absolute bottom-0 p-4 text-white opacity-0 translate-y-4 transition-all z-10">
@@ -134,7 +136,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto mt-10 mb-10">
+      <div className="container mx-auto mt-10 mb-10" data-aos="fade-up">
         <h3 className="text-3xl text-[#244d4d] font-extrabold uppercase px-4">
           Từ cửa hàng
         </h3>
@@ -161,7 +163,12 @@ const HomePage = () => {
           ]}
         >
           {products.map((item, i) => (
-            <div key={i} className="p-1 md:p-2 xl:p-4">
+            <div
+              data-aos="fade-up"
+              data-aos-delay={i * 150}
+              key={i}
+              className="p-1 md:p-2 xl:p-4"
+            >
               <ProductCard product={item} />
             </div>
           ))}
