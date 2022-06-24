@@ -64,6 +64,7 @@ const ProductListPage = () => {
         break;
     }
     setProducts(result);
+    setPage(1);
   }, [search, productStore, category, sort]);
 
   useEffect(() => {
